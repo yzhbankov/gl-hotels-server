@@ -1,0 +1,29 @@
+{
+  "name": "gl-hotels-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "ts-node server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yzhbankov/gl-hotels-server.git"
+  },
+  "author": "yzhbankov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yzhbankov/gl-hotels-server/issues"
+  },
+  "homepage": "https://github.com/yzhbankov/gl-hotels-server#readme",
+  "devDependencies": {
+    "ts-node": "^8.0.3",
+    "tslint": "^5.15.0",
+    "typescript": "^3.4.1",
+    "@types/node": "^11.13.0"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
