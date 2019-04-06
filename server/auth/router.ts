@@ -13,7 +13,7 @@ router.post('/login', passport.authenticate('local', { failureRedirect: '/login'
     return res.json({ user: req.user, token });
 });
 
-router.get('/logout', (req: IUserRequest, res) => {
+router.get('/logout', passport.authenticate('jwt', { session: false }), (req: IUserRequest, res) => {
     req.logout();
     res.send('You are logout');
 });

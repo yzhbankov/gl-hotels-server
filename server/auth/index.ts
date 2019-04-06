@@ -22,7 +22,7 @@ async function userCreate(email, password, login = '', firstName = '', lastName 
         hotels: []
     };
 
-    const insert = await usersCollection.insert({ ...user });
+    const insert = await usersCollection.insertOne({ ...user });
 
     if (insert.result && insert.result.ok === 1 && insert.result.n === 1) {
         const insertedUser = insert.ops[0];

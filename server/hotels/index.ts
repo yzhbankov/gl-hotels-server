@@ -16,7 +16,7 @@ async function createHotel(hotel, authorEmail) {
             throw error(404, 'User not found');
         }
 
-        const result = await hotelsCollection.insert({
+        const result = await hotelsCollection.insertOne({
             hotel,
             createdBy: {
                 email: currentUser.email

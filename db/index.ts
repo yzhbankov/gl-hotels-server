@@ -1,5 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../config');
+const Utils = require('./utils');
 
 const state = {
     db: null,
@@ -9,10 +10,13 @@ const state = {
 module.exports.connect = (url, done) => {
     if (state.db) return done();
 
-    MongoClient.connect(url, (err, client) => {
+    MongoClient.connect(url, async (err, client) => {
         if (err) return done(err);
         console.log(`set gl hotels server db connection in url: ${url}`);
         state.db = client.db(config.db.name);
+
+        await Utils.seedsToDb(state.db);
+        await Utils.createAdmin(state.db);
         done();
     });
 };
