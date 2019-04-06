@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "ts-node server.ts",
-    "server-js": "node build/server.js",
-    "start": "tsc && npm run server-js"
+    "start": "node build/server.js",
+    "compile": "tsc && npm run server-js"
   },
   "repository": {
     "type": "git",

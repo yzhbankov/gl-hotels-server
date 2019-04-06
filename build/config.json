@@ -1,0 +1,16 @@
+{
+    "server": {
+        "port": 3000
+    },
+    "db": {
+        "url": "mongodb://yzhbankov:password1360@ds133256.mlab.com:33256/heroku_m9d58dn4",
+        "name": "gl-hotels"
+    },
+    "secret": "turandot-secret",
+    "jwtsecret": "super-jwt-secret",
+    "user": "admin",
+    "password": "admin",
+    "email": "admin@admin.com",
+    "fisrtName": "Iaroslav",
+    "lastName": "Zhbankov"
+}
