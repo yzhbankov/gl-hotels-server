@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt');
-const { hotels } = require('./seeds/hotels');
+import * as Hotels from './seeds/hotels.json';
 import { DATES } from '../server/common/constants';
 const config = require('../config');
+
+const { hotels } = Hotels;
 
 async function seedsToDb(db) {
     const hotelsCollection = db.collection('hotels');

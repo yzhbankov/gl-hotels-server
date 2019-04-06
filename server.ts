@@ -1,4 +1,4 @@
-const express = require('express');
+import * as express from'express';
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -8,7 +8,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
 
-import * as config from './config.json';
+const config = require('./config.json');
 
 const app = express();
 
