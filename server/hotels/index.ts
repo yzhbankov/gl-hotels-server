@@ -36,6 +36,35 @@ async function createHotel(hotel, authorEmail) {
     }
 }
 
+async function updateHotel(uid, hotel, authorEmail) {
+    try {
+        const hotelsCollection = db.get().collection('hotels');
+        const now: Date = new Date();
+
+        const currentUser: IUser = await Users.findUserByEmailOrUid(authorEmail);
+        if (!currentUser) {
+            throw error(404, 'User not found');
+        }
+        const oldHotel = await hotelsCollection.findOne({ _id: ObjectId(uid) });
+        if (!oldHotel) {
+            console.error('Updated hotel not found');
+            throw error(422, 'Updated hotel not found')
+        }
+        const updatedHotel = Object.assign({}, oldHotel.hotel, hotel);
+        await hotelsCollection.updateOne(
+            { _id: ObjectId(uid) },
+            {
+                $set: {
+                    hotel: updatedHotel, updatedAt: now
+                }
+            },
+        );
+        return await hotelsCollection.findOne({ _id: ObjectId(uid) });
+    } catch (err) {
+        throw err;
+    }
+}
+
 async function removeHotel(uid: string, email: string) {
     try {
         const hotelsCollection = db.get().collection('hotels');
@@ -67,6 +96,7 @@ async function getHotels(uid = null, { offset = 0, limit = SEARCH.LIMIT }) {
 
 module.exports = {
     createHotel,
+    updateHotel,
     removeHotel,
     getHotels,
 };

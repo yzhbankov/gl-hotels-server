@@ -39,6 +39,20 @@ async function createHotelHandler(req, res, next) {
     }
 }
 
+async function updateHotelHandler(req, res, next) {
+    try {
+        const token: string = req.headers.authorization;
+        const decoded = jwt.verify(token.replace('Bearer ', ''), config.jwtsecret);
+        const hotel = { ...req.body };
+        const uid = req.params.uid;
+
+        const newHotel: IHotel = await Hotels.updateHotel(uid, hotel, decoded.email);
+        res.status(200).send(newHotel);
+    } catch (err) {
+        next(err);
+    }
+}
+
 async function removeHotelsHandler(req, res, next) {
     try {
         const uid: string = req.params.uid;
@@ -55,4 +69,5 @@ module.exports = {
     getHotelsHandler,
     createHotelHandler,
     removeHotelsHandler,
+    updateHotelHandler,
 };
