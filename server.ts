@@ -76,6 +76,7 @@ passport.use(new JWTStrategy(
 passport.serializeUser((user, done) => {
     done(null, user._id);
 });
+
 passport.deserializeUser(async (id, done) => {
     const usersCollection = db.get().collection('users');
     usersCollection.findOne({ _id: id }, (err, user) => {
