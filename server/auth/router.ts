@@ -2,15 +2,11 @@ import * as express from 'express';
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 
-interface IUserRequest extends express.Request {
-    logout(): void;
-    user: any
-}
-
 const router = express.Router();
 
 const config = require('./../../config');
 const handlers = require('./handlers');
+import { IUserRequest } from './models';
 
 router.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), (req: IUserRequest, res) => {
     const token = jwt.sign(req.user, config.jwtsecret, { expiresIn: '24h' });

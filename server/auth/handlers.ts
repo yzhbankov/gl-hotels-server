@@ -3,7 +3,9 @@ const error = require('http-errors');
 const db = require('./../../db');
 const Auth = require('./');
 
-async function signUpHandler(req, res, next) {
+import { ISignUpRequest } from './models';
+
+async function signUpHandler(req: ISignUpRequest, res, next) {
     try {
         const { email, password, login, firstName, lastName } = req.body;
 
