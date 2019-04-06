@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "ts-node server.ts",
-    "start": "./node_modules/.bin/tsc --module commonjs --outDir build/ --sourceMap --target ES6 server.ts && node build/server.js"
+    "server-js": "node build/server.js",
+    "start": "tsc && npm run server-js"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,7 @@
     "lodash.has": "^4.5.2",
     "lodash.uniq": "^4.5.0",
     "mongodb": "^3.2.2",
+    "nodemon": "^1.18.10",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0"
