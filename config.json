@@ -3,7 +3,7 @@
     "port": 3000
   },
   "db": {
-    "url": "mongodb://<dbuser>:<dbpassword>@ds133256.mlab.com:33256/heroku_m9d58dn4",
+    "url": "mongodb://yzhbankov:Iaroslav1985@ds133256.mlab.com:33256/heroku_m9d58dn4",
     "name": "gl-hotels"
   },
   "secret": "turandot-secret",
