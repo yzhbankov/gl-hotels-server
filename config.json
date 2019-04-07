@@ -3,15 +3,16 @@
     "port": 3000
   },
   "db": {
-    "url": "mongodb://localhost:27017/",
-    "name": "gl-hotels"
+    "url": "mongodb://yzhbankov:password1360@ds133256.mlab.com:33256/heroku_m9d58dn4",
+    "name": "heroku_m9d58dn4"
   },
   "secret": "turandot-secret",
   "jwtsecret": "super-jwt-secret",
   "user":"admin",
   "password": "admin",
+  "login": "admin",
   "email": "admin@admin.com",
-  "fisrtName": "Iaroslav",
+  "firstName": "Iaroslav",
   "lastName": "Zhbankov"
 }
 
