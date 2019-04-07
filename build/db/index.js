@@ -21,7 +21,6 @@ module.exports.connect = (url, done) => {
             return done(err);
         console.log(`set gl hotels server db connection in url: ${url}`);
         state.db = client.db(config.db.name);
-        console.log('state.db ', state.db);
         yield Utils.seedsToDb(state.db);
         yield Utils.createAdmin(state.db);
         done();
