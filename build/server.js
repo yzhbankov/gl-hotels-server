@@ -74,7 +74,7 @@ db.connect(config.db.url, (err) => {
     }
     else {
         app.listen(process.env.PORT || config.server.port, () => {
-            console.log(`GL hotels server listening on port ${config.server.port}`);
+            console.log(`GL hotels server listening on port ${process.env.PORT || config.server.port}`);
         });
     }
 });
