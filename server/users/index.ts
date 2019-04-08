@@ -1,32 +1,67 @@
 import * as error from 'http-errors';
+import {IUser} from "../common/models";
+
 const bcrypt = require('bcrypt');
+const _Uniq = require('lodash.uniq');
 const ObjectId = require('mongodb').ObjectID;
 
 const db = require('./../../db');
-const { DATES } = require('./../common/constants');
+const { IUser } = require('../common/models');
+const {DATES} = require('./../common/constants');
 
-async function findUserByEmailOrUid(email, uid) {
+async function findUserByEmailOrUid(email: string, uid: string) {
     const usersCollection = db.get().collection('users');
     let user;
     if (email) {
-        user = await usersCollection.findOne({ email });
+        user = await usersCollection.findOne({email});
     } else if (uid) {
-        user = await usersCollection.findOne({ _id: ObjectId(uid) });
+        user = await usersCollection.findOne({_id: ObjectId(uid)});
     }
     return user;
 }
 
-async function setHotelsToUser(email, hotels) {
+async function setHotelsToUser(email: string, hotels: string[]) {
     try {
         const usersCollection = db.get().collection('users');
         let user;
         if (email) {
             user = await usersCollection.updateOne(
-                { email },
-                { $set: { hotels } },
+                {email},
+                {$set: {hotels}},
             );
         }
         return user;
+    } catch (err) {
+        throw err;
+    }
+}
+
+async function addFavorite(user: IUser, hotelId: string) {
+    try {
+        const usersCollection = db.get().collection('users');
+        const favorites = _Uniq([...user.favorites, hotelId]);
+        const result = await usersCollection.findOneAndUpdate(
+            {email: user.email},
+            {$set: {favorites}},
+            {returnOriginal: false}
+        );
+        return formatUser(result.value)
+    } catch (err) {
+        throw err;
+    }
+}
+
+async function removeFavorite(user: IUser, hotelId: string) {
+    try {
+        const usersCollection = db.get().collection('users');
+        const favorites = user.favorites.filter(_hotelId =>  _hotelId !== hotelId);
+        const result = await usersCollection.findOneAndUpdate(
+            {email: user.email},
+            {$set: {favorites}},
+            {returnOriginal: false}
+        );
+        return formatUser(result.value)
+
     } catch (err) {
         throw err;
     }
@@ -37,10 +72,11 @@ function formatUser(user) {
         login: user.login,
         avatarUrl: user.avatarUrl ? user.avatarUrl : '',
         hotels: user.hotels ? user.hotels : [],
+        favorites: user.favorites ? user.favorites : []
     };
 }
 
-async function getUsers(login = null, { offset = 0, limit = 0 }) {
+async function getUsers(login = null, {offset = 0, limit = 0}) {
     const usersCollection = db.get().collection('users');
     if (!login) {
         const users = await usersCollection.find({
@@ -53,7 +89,7 @@ async function getUsers(login = null, { offset = 0, limit = 0 }) {
 
     const user = await usersCollection.findOne({
         $and: [
-            { login },
+            {login},
             {
                 $where: `(new Date(this.removedAt)).getTime() === ${(new Date(DATES.REMOVED_AT)).getTime()}`,
             },
@@ -103,4 +139,6 @@ module.exports = {
     removeUser,
     findUserByEmailOrUid,
     setHotelsToUser,
+    addFavorite,
+    removeFavorite,
 };

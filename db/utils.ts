@@ -45,7 +45,8 @@ async function createAdmin(db) {
             login: config.login,
             firstName: config.firstName,
             lastName: config.lastName,
-            hotels: [...allHotels.map(hotel => hotel._id)]
+            hotels: [...allHotels.map(hotel => hotel._id)],
+            favorites: []
         };
 
         await usersCollection.insertOne({ ...user });

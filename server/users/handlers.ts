@@ -43,8 +43,28 @@ async function removeUserHandler(req, res, next) {
     }
 }
 
+async function favoriteToUserHandler(req, res, next) {
+    try {
+        const user = await Users.addFavorite(req.user, req.body.hotelId);
+        res.status(200).send(user);
+    } catch (err) {
+        next(err)
+    }
+}
+
+async function removeFavoriteFromUserHandler(req, res, next) {
+    try {
+        const user = await Users.removeFavorite(req.user, req.params.uid);
+        res.status(200).send(user);
+    } catch (err) {
+        next(err)
+    }
+}
+
 module.exports = {
     getUsersHandler,
     createUserHandler,
     removeUserHandler,
+    favoriteToUserHandler,
+    removeFavoriteFromUserHandler,
 };

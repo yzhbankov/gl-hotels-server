@@ -31,5 +31,6 @@ export interface IUser {
     admin: boolean,
     firstName: string,
     lastName: string,
-    hotels: string[]
+    hotels: string[],
+    favorites: string[]
 }

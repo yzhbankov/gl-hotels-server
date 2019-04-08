@@ -34,6 +34,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "joi": "^14.3.1",
+    "lodash.uniq": "^4.5.0",
     "mongodb": "^3.2.2",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
