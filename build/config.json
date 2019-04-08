@@ -8,7 +8,7 @@
     },
     "secret": "turandot-secret",
     "jwtsecret": "super-jwt-secret",
-    "user":"admin",
+    "user": "admin",
     "password": "admin",
     "login": "admin",
     "email": "admin@admin.com",

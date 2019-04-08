@@ -3,8 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const error = require("http-errors");
 const bcrypt = require('bcrypt');
+const _Uniq = require('lodash.uniq');
 const ObjectId = require('mongodb').ObjectID;
 const db = require('./../../db');
+const { IUser } = require('../common/models');
 const { DATES } = require('./../common/constants');
 function findUserByEmailOrUid(email, uid) {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
@@ -34,11 +36,38 @@ function setHotelsToUser(email, hotels) {
         }
     });
 }
+function addFavorite(user, hotelId) {
+    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        try {
+            const usersCollection = db.get().collection('users');
+            const favorites = _Uniq([...user.favorites, hotelId]);
+            const result = yield usersCollection.findOneAndUpdate({ email: user.email }, { $set: { favorites } }, { returnOriginal: false });
+            return formatUser(result.value);
+        }
+        catch (err) {
+            throw err;
+        }
+    });
+}
+function removeFavorite(user, hotelId) {
+    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        try {
+            const usersCollection = db.get().collection('users');
+            const favorites = user.favorites.filter(_hotelId => _hotelId !== hotelId);
+            const result = yield usersCollection.findOneAndUpdate({ email: user.email }, { $set: { favorites } }, { returnOriginal: false });
+            return formatUser(result.value);
+        }
+        catch (err) {
+            throw err;
+        }
+    });
+}
 function formatUser(user) {
     return {
         login: user.login,
         avatarUrl: user.avatarUrl ? user.avatarUrl : '',
         hotels: user.hotels ? user.hotels : [],
+        favorites: user.favorites ? user.favorites : []
     };
 }
 function getUsers(login = null, { offset = 0, limit = 0 }) {
@@ -100,5 +129,7 @@ module.exports = {
     removeUser,
     findUserByEmailOrUid,
     setHotelsToUser,
+    addFavorite,
+    removeFavorite,
 };
 //# sourceMappingURL=index.js.map

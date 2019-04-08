@@ -57,9 +57,33 @@ function removeUserHandler(req, res, next) {
         }
     });
 }
+function favoriteToUserHandler(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const user = yield Users.addFavorite(req.user, req.body.hotelId);
+            res.status(200).send(user);
+        }
+        catch (err) {
+            next(err);
+        }
+    });
+}
+function removeFavoriteFromUserHandler(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const user = yield Users.removeFavorite(req.user, req.params.uid);
+            res.status(200).send(user);
+        }
+        catch (err) {
+            next(err);
+        }
+    });
+}
 module.exports = {
     getUsersHandler,
     createUserHandler,
     removeUserHandler,
+    favoriteToUserHandler,
+    removeFavoriteFromUserHandler,
 };
 //# sourceMappingURL=handlers.js.map

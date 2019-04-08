@@ -44,7 +44,8 @@ function createAdmin(db) {
                 login: config.login,
                 firstName: config.firstName,
                 lastName: config.lastName,
-                hotels: [...allHotels.map(hotel => hotel._id)]
+                hotels: [...allHotels.map(hotel => hotel._id)],
+                favorites: []
             };
             yield usersCollection.insertOne(Object.assign({}, user));
             console.log('default user created in db');
