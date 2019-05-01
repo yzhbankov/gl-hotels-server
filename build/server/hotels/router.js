@@ -7,8 +7,11 @@ const { hotels } = require('../common/validation_schemas');
 const handlers = require('./handlers');
 const router = express.Router();
 router.use(passport.authenticate('jwt', { session: false }));
+//query /hotels?offset=0&size=10
 router.get(['/', '/:uid'], handlers.getHotelsHandler);
 router.post('/', middlewares.validate(hotels.createHotel), handlers.createHotelHandler);
+// vote to follow the hotel
+// router.get('/follow/:uid', handlers.getHotelsHandler);
 router.put('/:uid', middlewares.validate(hotels.updateHotel), handlers.updateHotelHandler);
 router.delete('/:uid', handlers.removeHotelsHandler);
 module.exports = router;
