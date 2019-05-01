@@ -18,6 +18,10 @@ router.get('/logout', passport.authenticate('jwt', { session: false }), (req: IU
     res.send('You are logout');
 });
 
+router.get('/check_token', passport.authenticate('jwt', { session: false }), (req: IUserRequest, res) => {
+    res.send({ autorized: true });
+});
+
 router.post('/sign_up', handlers.signUpHandler);
 
 module.exports = router;
