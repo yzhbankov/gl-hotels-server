@@ -19,7 +19,9 @@ router.get('/logout', passport.authenticate('jwt', { session: false }), (req: IU
 });
 
 router.get('/check_token', passport.authenticate('jwt', { session: false }), (req: IUserRequest, res) => {
-    res.send({ autorized: true });
+    const token: string = req.headers.authorization;
+    const decoded = jwt.verify(token.replace('Bearer ', ''), config.jwtsecret);
+    res.send({ user: decoded });
 });
 
 router.post('/sign_up', handlers.signUpHandler);
