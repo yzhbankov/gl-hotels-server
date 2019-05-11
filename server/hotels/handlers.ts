@@ -53,6 +53,17 @@ async function updateHotelHandler(req, res, next) {
     }
 }
 
+async function followHotelHandler(req, res, next) {
+    try {
+        const { hotelId } = req.body;
+
+        const newHotel: IHotel = await Hotels.increaseHotelFollowers(hotelId);
+        res.status(200).send(newHotel);
+    } catch (err) {
+        next(err);
+    }
+}
+
 async function removeHotelsHandler(req, res, next) {
     try {
         const uid: string = req.params.uid;
@@ -70,4 +81,5 @@ module.exports = {
     createHotelHandler,
     removeHotelsHandler,
     updateHotelHandler,
+    followHotelHandler,
 };

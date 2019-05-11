@@ -1,4 +1,6 @@
 import * as  error from 'http-errors';
+import * as _Has from 'lodash.has';
+
 const db = require('./../../db');
 const ObjectId = require('mongodb').ObjectID;
 const { SEARCH } = require( '../common/constants');
@@ -65,6 +67,35 @@ async function updateHotel(uid, hotel, authorEmail) {
     }
 }
 
+async function increaseHotelFollowers(uid) {
+    try {
+        const hotelsCollection = db.get().collection('hotels');
+        const now: Date = new Date();
+
+        const oldHotel = await hotelsCollection.findOne({ _id: ObjectId(uid) });
+        if (!oldHotel) {
+            console.error('Updated hotel not found');
+            throw error(422, 'Updated hotel not found')
+        }
+        if (_Has(oldHotel, 'hotel.profile.followers')) {
+            oldHotel.hotel.profile.followers += 1;
+        }
+
+        const updatedHotel = Object.assign({}, oldHotel.hotel);
+        await hotelsCollection.updateOne(
+            { _id: ObjectId(uid) },
+            {
+                $set: {
+                    hotel: updatedHotel, updatedAt: now
+                }
+            },
+        );
+        return await hotelsCollection.findOne({ _id: ObjectId(uid) });
+    } catch (err) {
+        throw err;
+    }
+}
+
 async function removeHotel(uid: string, email: string) {
     try {
         const hotelsCollection = db.get().collection('hotels');
@@ -99,4 +130,5 @@ module.exports = {
     updateHotel,
     removeHotel,
     getHotels,
+    increaseHotelFollowers,
 };
