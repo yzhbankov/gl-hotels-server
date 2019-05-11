@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const error = require("http-errors");
+const _Has = require("lodash.has");
 const db = require('./../../db');
 const ObjectId = require('mongodb').ObjectID;
 const { SEARCH } = require('../common/constants');
@@ -61,6 +62,32 @@ function updateHotel(uid, hotel, authorEmail) {
         }
     });
 }
+function increaseHotelFollowers(uid) {
+    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        try {
+            const hotelsCollection = db.get().collection('hotels');
+            const now = new Date();
+            const oldHotel = yield hotelsCollection.findOne({ _id: ObjectId(uid) });
+            if (!oldHotel) {
+                console.error('Updated hotel not found');
+                throw error(422, 'Updated hotel not found');
+            }
+            if (_Has(oldHotel, 'hotel.profile.followers')) {
+                oldHotel.hotel.profile.followers += 1;
+            }
+            const updatedHotel = Object.assign({}, oldHotel.hotel);
+            yield hotelsCollection.updateOne({ _id: ObjectId(uid) }, {
+                $set: {
+                    hotel: updatedHotel, updatedAt: now
+                }
+            });
+            return yield hotelsCollection.findOne({ _id: ObjectId(uid) });
+        }
+        catch (err) {
+            throw err;
+        }
+    });
+}
 function removeHotel(uid, email) {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         try {
@@ -97,5 +124,6 @@ module.exports = {
     updateHotel,
     removeHotel,
     getHotels,
+    increaseHotelFollowers,
 };
 //# sourceMappingURL=index.js.map

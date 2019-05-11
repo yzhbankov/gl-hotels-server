@@ -31,8 +31,12 @@ const updateHotel = Joi.object().keys({
     profile: profile.optional(),
     stars: Joi.number().optional(),
 });
+const followHotel = Joi.object().keys({
+    hotelId: Joi.string().required(),
+});
 module.exports = {
     createHotel,
-    updateHotel
+    updateHotel,
+    followHotel
 };
 //# sourceMappingURL=hotels.js.map

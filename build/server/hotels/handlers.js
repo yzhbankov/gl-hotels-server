@@ -58,6 +58,18 @@ function updateHotelHandler(req, res, next) {
         }
     });
 }
+function followHotelHandler(req, res, next) {
+    return tslib_1.__awaiter(this, void 0, void 0, function* () {
+        try {
+            const { hotelId } = req.body;
+            const newHotel = yield Hotels.increaseHotelFollowers(hotelId);
+            res.status(200).send(newHotel);
+        }
+        catch (err) {
+            next(err);
+        }
+    });
+}
 function removeHotelsHandler(req, res, next) {
     return tslib_1.__awaiter(this, void 0, void 0, function* () {
         try {
@@ -77,5 +89,6 @@ module.exports = {
     createHotelHandler,
     removeHotelsHandler,
     updateHotelHandler,
+    followHotelHandler,
 };
 //# sourceMappingURL=handlers.js.map
