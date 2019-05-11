@@ -6,6 +6,7 @@ const router = express.Router();
 
 const config = require('./../../config');
 const handlers = require('./handlers');
+const Users =  require('../users');
 import { IUserRequest } from './models';
 
 router.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), (req: IUserRequest, res) => {
@@ -18,10 +19,11 @@ router.get('/logout', passport.authenticate('jwt', { session: false }), (req: IU
     res.send('You are logout');
 });
 
-router.get('/check_token', passport.authenticate('jwt', { session: false }), (req: IUserRequest, res) => {
+router.get('/check_token', passport.authenticate('jwt', { session: false }), async (req: IUserRequest, res) => {
     const token: string = req.headers.authorization;
     const decoded = jwt.verify(token.replace('Bearer ', ''), config.jwtsecret);
-    res.send({ user: decoded });
+    const user = await Users.getUsers(decoded.login, {});
+    res.send({ ...user });
 });
 
 router.post('/sign_up', handlers.signUpHandler);
